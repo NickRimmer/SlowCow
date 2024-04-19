@@ -1,0 +1,16 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" 
+        Width="600"
+        Height="300"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        x:Class="Example.App.MainWindow"
+        Title="Example.App">
+    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+        <Label HorizontalAlignment="Center">Example application</Label>
+        <Button HorizontalAlignment="Center" Margin="0,5,0,0" Click="CheckUpdates_OnClick">Check for updates</Button>
+    </StackPanel>
+</Window>

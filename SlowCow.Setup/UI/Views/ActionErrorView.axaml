@@ -1,0 +1,51 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:SlowCow.Setup.UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="200"
+             d:DataContext="{x:Static vm:ActionErrorViewModel.DesignInstance}"
+             x:DataType="vm:ActionErrorViewModel"
+             VerticalAlignment="Stretch"
+             x:Class="SlowCow.Setup.UI.Views.ActionErrorView">
+    <UserControl.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="ExtraLight" />
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundLightMain}" />
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="Margin" Value="0,5,0,0" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundLightSecond}" />
+        </Style>
+
+        <Style Selector="TextBlock.Details">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundLightError}" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style Selector="StackPanel">
+            <Setter Property="Margin" Value="20" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </UserControl.Styles>
+
+    <Panel Background="{DynamicResource BackgroundError}">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="{Binding Message}" />
+            <TextBlock Text="{Binding Details}" Classes="Details" />
+            <Button
+                IsVisible="False"
+                x:Name="DetailsButton"
+                Click="ShowDetails_OnClick">
+                Show more details
+            </Button>
+        </StackPanel>
+    </Panel>
+</UserControl>

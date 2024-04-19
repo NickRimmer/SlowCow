@@ -1,0 +1,10 @@
+﻿{
+  "releaseNotes": [
+    "New awesome feature added",
+    "Bug fixes",
+    "New bugs introduced"
+  ],
+  "version": null,
+  "channel": "preview",
+  "sourceDirectory": "X:\\projects\\SlowCow\\_temp\\example-app"
+}

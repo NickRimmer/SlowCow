@@ -1,8 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCow.Setup", "SlowCow.Setup\SlowCow.Setup.csproj", "{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Setup", "Example.Setup\Example.Setup.csproj", "{FC8E379F-8FB4-4174-B28C-395CB2D235F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.App", "Example.App\Example.App.csproj", "{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC8E379F-8FB4-4174-B28C-395CB2D235F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC8E379F-8FB4-4174-B28C-395CB2D235F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC8E379F-8FB4-4174-B28C-395CB2D235F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC8E379F-8FB4-4174-B28C-395CB2D235F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

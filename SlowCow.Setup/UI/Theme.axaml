@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="AccentColorGradient1">#244F70</Color>
+    <Color x:Key="AccentColorGradient2">#35688E</Color>
+    <Color x:Key="BackgroundError">#84402B</Color>
+    <Color x:Key="BackgroundPlaceholder">#11000000</Color>
+
+    <Color x:Key="ForegroundMain">#000000</Color>
+    <Color x:Key="ForegroundSecond">#5D5D5D</Color>
+    <Color x:Key="ForegroundLightMain">#FFFFFF</Color>
+    <Color x:Key="ForegroundLightSecond">#AAFFFFFF</Color>
+    <Color x:Key="ForegroundLightError">#FABFAD</Color>
+    <Color x:Key="ProgressBackground">#A9B0E3</Color>
+    <Color x:Key="ProgressForeground">#0EA8FF</Color>
+
+    <LinearGradientBrush x:Key="AccentGradient">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="{DynamicResource AccentColorGradient1}" />
+            <GradientStop Offset="1" Color="{DynamicResource AccentColorGradient2}" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+</ResourceDictionary>

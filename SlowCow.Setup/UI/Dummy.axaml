@@ -1,0 +1,13 @@
+﻿<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="SlowCow.Setup.UI.Dummy"
+             xmlns:local="using:SlowCow.Setup"
+             xmlns:ui="clr-namespace:SlowCow.Setup.UI"
+             RequestedThemeVariant="Light">
+    <Application.DataTemplates>
+        <ui:ViewLocator />
+    </Application.DataTemplates>
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+</Application>

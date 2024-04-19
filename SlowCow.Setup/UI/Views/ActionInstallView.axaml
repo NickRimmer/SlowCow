@@ -1,0 +1,192 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:SlowCow.Setup.UI.ViewModels"
+             xmlns:converters="clr-namespace:SlowCow.Setup.UI.Converters"
+             mc:Ignorable="d" d:DesignWidth="600"
+             d:DataContext="{x:Static vm:ActionInstallViewModel.DesignInstance}"
+             x:DataType="vm:ActionInstallViewModel"
+             x:Class="SlowCow.Setup.UI.Views.ActionInstallView">
+    <UserControl.Styles>
+        <!-- action panel -->
+        <Style Selector="Border.ActionPanel">
+            <Setter Property="Background" Value="#38000000" />
+            <Setter Property="Padding" Value="10" />
+
+            <Style Selector="^ > StackPanel">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+            </Style>
+
+            <Style Selector="^ Button">
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundLightSecond}" />
+
+                <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundLightMain}" />
+                </Style>
+
+                <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+                    <Setter Property="Background" Value="Transparent" />
+                </Style>
+            </Style>
+        </Style>
+
+        <!-- release notes -->
+        <Style Selector="StackPanel.Content, Grid.Content">
+            <Setter Property="Margin" Value="30" />
+
+            <Style Selector="^ Label">
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundLightSecond}" />
+            </Style>
+            
+            <Style Selector="^ TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundLightSecond}" />
+            </Style>
+        </Style>
+
+        <Style Selector="StackPanel.ReleaseNotes">
+            <Style Selector="^ Button">
+                <Setter Property="Margin" Value="-10,0,0,0" />
+                <Setter Property="Background" Value="Transparent" />
+                <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                    <Setter Property="Background" Value="#15ffffff" />
+                </Style>
+                <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                    <Setter Property="Background" Value="Transparent" />
+                </Style>
+
+                <Style Selector="^ Image">
+                    <Setter Property="Stretch" Value="None" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+
+                <Style Selector="^ TextBlock">
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundLightMain}" />
+                </Style>
+            </Style>
+            <Style Selector="^ TextBlock.ReleaseNotesMessage">
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundLightSecond}" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
+        </Style>
+
+        <Style Selector="Grid.InstallationSettings">
+            <Style Selector="^ CheckBox">
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundLightSecond}" />
+                <Setter Property="Margin" Value="3,0,0,0" />
+
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundLightMain}" />
+                </Style>
+
+                <Style Selector="^ /template/ Border#NormalRectangle">
+                    <Setter Property="BorderBrush" Value="{DynamicResource ForegroundLightSecond}" />
+                </Style>
+            </Style>
+        </Style>
+
+        <Style Selector="Button.Link">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundLightSecond}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="5,0,0,0" />
+
+            <Style Selector="^ TextBlock">
+                <Setter Property="TextDecorations" Value="Underline" />
+            </Style>
+
+            <Style Selector="^:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+
+            <Style Selector="^:pointerover TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundLightMain}" />
+            </Style>
+        </Style>
+    </UserControl.Styles>
+
+    <StackPanel Background="{DynamicResource AccentGradient}" Orientation="Vertical">
+        <StackPanel
+            IsVisible="{Binding WizardStep, Converter={x:Static converters:EqualConverter.Same}, ConverterParameter=0}"
+            Orientation="Vertical">
+            <StackPanel Orientation="Vertical" Classes="ReleaseNotes Content">
+                <Button IsEnabled="{Binding Manifest.ReleaseNotes.Link, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                    <StackPanel Orientation="Horizontal" Spacing="7">
+                        <TextBlock>Release notes</TextBlock>
+                        <Image Source="../../Assets/icon-link-to-release-notes.png" IsVisible="{Binding $parent[Button].IsEnabled}" />
+                    </StackPanel>
+                </Button>
+                <TextBlock Classes="ReleaseNotesMessage" Text="{Binding Manifest.ReleaseNotes.Text}" />
+            </StackPanel>
+            <Border Classes="ActionPanel">
+                <StackPanel Orientation="Horizontal">
+                    <Button Click="NextButton_OnClick">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="3">
+                            <TextBlock>Install version</TextBlock>
+                            <TextBlock Text="{Binding Manifest.Version}" />
+                            <Image Margin="3,0,0,0" Source="../../Assets/icon-install.png" Opacity=".8" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <StackPanel
+            IsVisible="{Binding WizardStep, Converter={x:Static converters:EqualConverter.Same}, ConverterParameter=1}"
+            Orientation="Vertical">
+            <Grid ColumnDefinitions="Auto *" RowDefinitions="Auto Auto Auto Auto" Classes="InstallationSettings Content">
+                <TextBlock Grid.Column="0" Grid.Row="0">Installation folder: </TextBlock>
+                <Button Grid.Column="1" Grid.Row="0" Classes="Link" Click="ButtonOpenTargetFolder_OnClick">
+                    <TextBlock Text="{Binding InstallationPath, Mode=OneTime}" />
+                </Button>
+
+                <Panel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Height="5"/>
+                <CheckBox IsChecked="{Binding AddDesktopShortcut}" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0">Add to Desktop</CheckBox>
+                <CheckBox IsChecked="{Binding AddStartMenuShortcut}" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0">Add to Start</CheckBox>
+            </Grid>
+            <Border Classes="ActionPanel">
+                <StackPanel Orientation="Horizontal">
+                    <Button Click="NextButton_OnClick">
+                        <TextBlock>Continue</TextBlock>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <StackPanel
+            IsVisible="{Binding WizardStep, Converter={x:Static converters:EqualConverter.Same}, ConverterParameter=2}"
+            Orientation="Vertical">
+            <ProgressBar
+                Height="6"
+                CornerRadius="0"
+                VerticalAlignment="Top"
+                IsIndeterminate="True"
+                Background="{DynamicResource ProgressBackground}"
+                Foreground="{DynamicResource ProgressForeground}" />
+
+            <StackPanel Classes="Content">
+                <TextBlock>Installation in progress...</TextBlock>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel
+            IsVisible="{Binding WizardStep, Converter={x:Static converters:EqualConverter.Same}, ConverterParameter=3}"
+            Orientation="Vertical">
+            <StackPanel Classes="Content" Orientation="Vertical">
+                <Label FontSize="18">Congratulations!</Label>
+                <TextBlock Padding="5" TextWrapping="Wrap">Your application has been successfully installed. Click 'Run' to start exploring all the features now!</TextBlock>
+            </StackPanel>
+            
+            <Border Classes="ActionPanel">
+                <StackPanel Orientation="Horizontal">
+                    <Button Click="RunApp_OnClick">
+                        <TextBlock>
+                            <TextBlock>Run</TextBlock>
+                            <TextBlock Text="{Binding AppName}"/>
+                        </TextBlock>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

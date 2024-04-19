@@ -1,0 +1,19 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+
+# Solution folders
+_temp/
+
+# Common settings
+.vs/
+.vscode/
+.idea
+
+*.suo
+*.user
+*.sln.docstates
+riderModule.iml
+Thumbs.db

@@ -1,4 +1,4 @@
-# SlowCow
+# SlowCow Installer
 
 Simple installer on C#
 

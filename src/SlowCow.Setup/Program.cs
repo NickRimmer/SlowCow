@@ -1,5 +1,4 @@
-﻿using System;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using SlowCow.Setup.UI;
 namespace SlowCow.Setup;

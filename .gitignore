@@ -6,7 +6,6 @@ riderModule.iml
 
 # Solution folders
 _temp/
-src/packages/
 
 # Common settings
 .vs/

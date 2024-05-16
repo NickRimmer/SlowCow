@@ -1,49 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Logging;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using Newtonsoft.Json;
-using SlowCow.Setup.Modules.Installers;
-using SlowCow.Setup.Modules.Installers.Base;
-using SlowCow.Setup.Modules.Runner;
-using SlowCow.Setup.Modules.Setups.Base;
-using SlowCow.Setup.Modules.Setups.Base.Exceptions;
-using SlowCow.Setup.Modules.Setups.LocalSetup;
-using SlowCow.Setup.Modules.Updates;
+using SlowCow.Setup.Base.Interfaces;
+using SlowCow.Setup.Repo.Base.Exceptions;
+using SlowCow.Setup.Repo.Base.Interfaces;
+using SlowCow.Setup.Repo.Base.Models;
+using SlowCow.Setup.Services;
 using SlowCow.Setup.UI;
-using SlowCow.Shared;
 namespace SlowCow.Setup;
 
 public static class Runner
 {
     private static IServiceProvider ServicesInDesign { get; } = new ServiceCollection()
-        .AddSingleton(new RunnerModel {
+        .AddSingleton(new RunnerSettingsModel {
             Name = string.Empty,
             Description = string.Empty,
             ApplicationId = Guid.Empty,
             ExecutableFileName = "Example.App.exe",
         })
-        .AddSingleton<ISetup>(new LocalSetup("in-design"))
+        .AddSingleton<IRepo>(new InDesignRepo())
         .BuildServiceProvider();
 
-    public static IServiceProvider Services { get; private set; } = Design.IsDesignMode ? ServicesInDesign : null!;
+    internal static IServiceProvider Services { get; private set; } = Design.IsDesignMode ? ServicesInDesign : null!;
 
-    public static async Task RunAsync(RunnerModel runnerSettings, ISetup setup)
+    public static async Task RunAsync(RunnerSettingsModel runnerSettings, IRepo setup, IInstaller installer, ILogger? customLogger = null)
     {
+        // catch all unhandled exceptions
+        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+        {
+            var logger = Services.GetRequiredService<ILogger>();
+            logger.LogError((Exception) args.ExceptionObject, "Unhandled exception");
+        };
+
         var args = Environment.GetCommandLineArgs();
 
-        if (TryGetArgsValue(args, Constants.SetupArgNameChannel, out var channel))
+        if (TryGetArgsValue(args, "channel", out var channel))
             runnerSettings = runnerSettings with { Channel = channel };
 
-        if (TryGetArgsValue(args, Constants.SetupArgNameParentProcessId, out var parentProcessId))
+        if (TryGetArgsValue(args, "parent", out var parentProcessId))
             runnerSettings = runnerSettings with { ParentProcessId = parentProcessId };
 
         runnerSettings = runnerSettings with {
@@ -51,43 +54,57 @@ public static class Runner
         };
 
         Services = new ServiceCollection()
+            .AddSingleton(customLogger ?? new Base.Loggers.ConsoleLogger())
             .AddSingleton(setup)
-            .AddSingleton<InstallerProvider>()
-            .AddSingleton<IInstaller, WindowsInstaller>()
+            .AddSingleton(installer)
             .AddSingleton<UpdatesInfoService>()
             .AddSingleton(runnerSettings)
             .BuildServiceProvider();
 
+        var logger = Services.GetRequiredService<ILogger>();
+        logger.LogDebug("Runner started with arguments: {Join}", string.Join(" ", args));
+
         if (ArgsHasFlag(args, "uninstall"))
         {
+            logger.LogInformation("Uninstalling...");
             RunUninstall();
             return;
         }
 
-        if (TryGetArgsValue(args, "uninstall-cleaning", out var values))
+        if (ArgsHasFlag(args, "uninstall-cleaning") && !string.IsNullOrWhiteSpace(runnerSettings.ParentProcessId))
         {
-            var valuesArray = values.Split(';');
-            var processId = valuesArray[0];
-            var cleaningFolder = valuesArray[1];
-
-            RunUninstallCleaning(processId, cleaningFolder);
+            logger.LogInformation("Cleaning after uninstall...");
+            var installationPath = installer.InstallationPath;
+            RunUninstallCleaning(runnerSettings.ParentProcessId, installationPath);
             return;
         }
 
-        if (TryGetArgsValue(args, "pack", out var packSettingsFile))
+        if (ArgsHasFlag(args, "self-update") && !string.IsNullOrWhiteSpace(runnerSettings.ParentProcessId))
         {
-            if (!File.Exists(packSettingsFile)) throw new PackerException($"Settings file '{packSettingsFile}' does not exist.");
-            await RunPackAsync(packSettingsFile);
+            logger.LogInformation("Self-updating...");
+            var installationPath = installer.InstallationPath;
+            RunSelfUpdate(runnerSettings.ParentProcessId, installationPath);
             return;
         }
 
-        if (TryGetArgsValue(args, Constants.SetupArgNameGetVersion, out var versionFileName))
+        if (TryGetArgsValue(args, "upload", out var packSettingsFile))
         {
+            logger.LogInformation("Uploading...");
+            if (!File.Exists(packSettingsFile)) throw new RepoException($"Settings file '{packSettingsFile}' does not exist.");
+            await RunUploadAsync(packSettingsFile);
+            return;
+        }
+
+        if (TryGetArgsValue(args, "get-version", out var versionFileName))
+        {
+            logger.LogInformation("Getting version...");
             await RunGetVersionAsync(versionFileName);
             return;
         }
 
+        logger.LogInformation("Running setup...");
         RunSetup();
+        logger.LogInformation("Setup exit");
     }
 
     private static bool TryGetArgsValue(IEnumerable<string> args, string name, [NotNullWhen(true)] out string? value)
@@ -108,14 +125,17 @@ public static class Runner
     private static void RunUninstallCleaning(string processId, string cleaningFolder)
     {
         // wait for the process to exit
+        var logger = Services.GetRequiredService<ILogger>();
         try
         {
+            logger.LogInformation("Waiting for the process {ProcessId} to exit...", processId);
             var process = Process.GetProcessById(int.Parse(processId));
             process?.WaitForExit();
         }
-        catch
+        catch (Exception ex)
         {
             // ignored
+            logger.LogError(ex, "Error while waiting for the process to exit");
         }
 
         // delete the folder
@@ -132,14 +152,49 @@ public static class Runner
                 Task.Delay(3000).GetAwaiter().GetResult();
             }
         }
+
+        logger.LogInformation("Folder '{CleaningFolder}' deleted successfully", cleaningFolder);
     }
 
-    private static Task RunPackAsync(string settingsFile)
+    private static void RunSelfUpdate(string processId, string targetFolder)
     {
+        // wait for the process to exit
+        var logger = Services.GetRequiredService<ILogger>();
+        try
+        {
+            logger.LogInformation("Waiting for the process {ProcessId} to exit...", processId);
+            var process = Process.GetProcessById(int.Parse(processId));
+            process?.WaitForExit();
+        }
+        catch (Exception ex)
+        {
+            // ignored
+            logger.LogError(ex, "Error while waiting for the process to exit");
+        }
+
+        // copy itself to the target folder
+        var sourceFile = Process.GetCurrentProcess().MainModule?.FileName;
+        if (sourceFile == null) return;
+
+        var targetFile = Path.Combine(targetFolder, $"setup{Path.GetExtension(sourceFile)}"); // TODO I don't like it...
+        logger.LogInformation("Copying '{SourceFile}' to '{TargetFile}'", sourceFile, targetFile);
+        File.Copy(sourceFile, targetFile, true);
+    }
+
+    private static Task<bool> RunUploadAsync(string settingsFile)
+    {
+        AppBuilder
+            .Configure<Dummy>()
+            .UsePlatformDetect()
+            .LogToTrace(LogEventLevel.Verbose);
+
         var settingsJson = File.ReadAllText(settingsFile);
-        return Services
-            .GetRequiredService<ISetup>()
-            .PackAsync(settingsJson);
+        var settings = JsonConvert.DeserializeObject<RepoReleaseModelExt>(settingsJson) ?? throw new RepoException("Failed to read settings from JSON");
+
+        var repo = Services.GetRequiredService<IRepo>();
+        var logger = Services.GetRequiredService<ILogger>();
+        Services.GetRequiredService<ILogger>().LogInformation("Uploading '{SourcePath}' with repo '{Name}'", settings.SourcePath, repo.GetType().Name);
+        return repo.UploadAsync(settings, settings.SourcePath, logger);
     }
 
     private static void RunUninstall()
@@ -149,11 +204,22 @@ public static class Runner
             .UsePlatformDetect()
             .AfterSetup(_ => Task.Run(async () =>
             {
-                var installer = Services
-                    .GetRequiredService<InstallerProvider>()
-                    .GetInstaller();
+                var installer = Services.GetRequiredService<IInstaller>();
+                var runnerSettings = Services.GetRequiredService<RunnerSettingsModel>();
+                var logger = Services.GetRequiredService<ILogger>();
 
-                await Dispatcher.UIThread.InvokeAsync(installer.UninstallAsync);
+                Services.GetRequiredService<ILogger>().LogDebug("Uninstalling with installer {Name}", installer.GetType().Name);
+                await Dispatcher.UIThread.InvokeAsync(async () =>
+                {
+                    var result = await MessageBoxManager.GetMessageBoxStandard(runnerSettings.Name, "Are you sure you want to uninstall the application?", ButtonEnum.YesNo, Icon.Question).ShowAsync();
+                    if (result != ButtonResult.Yes)
+                    {
+                        logger.LogInformation("Uninstall cancelled by user");
+                        return;
+                    }
+
+                    await installer.UninstallAsync(Services.GetRequiredService<ILogger>());
+                });
                 Environment.Exit(0);
             }).ConfigureAwait(false))
             .StartWithClassicDesktopLifetime([], ShutdownMode.OnExplicitShutdown);
@@ -161,6 +227,7 @@ public static class Runner
 
     private static async Task RunGetVersionAsync(string filePath)
     {
+        var logger = Services.GetRequiredService<ILogger>();
         try
         {
             var versionInfo = await Services.GetRequiredService<UpdatesInfoService>().GetInfoAsync();
@@ -169,11 +236,11 @@ public static class Runner
             if (!string.IsNullOrWhiteSpace(directory)) Directory.CreateDirectory(directory);
 
             await File.WriteAllTextAsync(filePath, versionJson);
-            Console.WriteLine($"File saved to: {filePath}");
+            logger.LogInformation("File saved to: {FilePath}", filePath);
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error: " + ex.Message);
+            logger.LogError(ex, "Error while getting version");
         }
     }
 
@@ -183,8 +250,21 @@ public static class Runner
             .Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
-            .LogToTrace()
+            .LogToTrace(LogEventLevel.Verbose)
             .UseReactiveUI()
             .StartWithClassicDesktopLifetime([]);
+    }
+
+    private record RepoReleaseModelExt : RepoReleaseModel
+    {
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        public required string SourcePath { get; init; }
+    }
+
+    private class InDesignRepo : IRepo
+    {
+        public Task<RepoReleaseModel?> GetLastReleaseAsync(string channel, ILogger logger) => throw new NotImplementedException();
+        public Task<bool> UploadAsync(RepoReleaseModel releaseInfo, string sourcePath, ILogger logger) => throw new NotImplementedException();
+        public Task<DownloadResultModel?> DownloadAsync(string channel, string loadVersion, Dictionary<string, string> installedHashes, ILogger logger) => throw new NotImplementedException();
     }
 }

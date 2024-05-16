@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Title>SlowCow GitHub repo library</Title>
+    <Description>Provides an implementation of the `IRepo` interface for retrieving resources from GitHub releases. This library builds on the base functionality provided by the `SlowCow.Setup.Repo.Base` library, offering features tailored for accessing and downloading resources directly from GitHub.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(DocsDir)repo-github.md" Pack="true" PackagePath=".\README.md" Visible="true"/>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\SlowCow.Setup.Repo.Base\SlowCow.Setup.Repo.Base.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Octokit" Version="11.0.1" />
+  </ItemGroup>
+
+</Project>

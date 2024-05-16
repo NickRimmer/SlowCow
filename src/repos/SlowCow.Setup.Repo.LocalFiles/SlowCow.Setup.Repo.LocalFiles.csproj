@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <Title>SlowCow LocalFiles repo library</Title>
+    <Description>Provides an implementation of the `IRepo` interface for retrieving resources from local file systems. This library builds on the base functionality provided by the `SlowCow.Setup.Repo.Base` library, offering features tailored for accessing and downloading resources from local directories.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(DocsDir)repo-localfiles.md" Pack="true" PackagePath=".\README.md" Visible="true"/>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\SlowCow.Setup.Repo.Base\SlowCow.Setup.Repo.Base.csproj" />
+  </ItemGroup>
+
+</Project>

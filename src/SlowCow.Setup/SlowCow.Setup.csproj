@@ -6,12 +6,31 @@
     <ApplicationManifest>UI/app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <NoWarn>$(NoWarn);IL2057</NoWarn>
+
     <Title>SlowCow Setup</Title>
     <Authors>Nick Rimmer</Authors>
     <Description>Slow Cow Setup - is simple library to build you own Installer for your awesome app</Description>
     <PackageTags>Installer, Setup, Slow Cow</PackageTags>
     <ApplicationIcon>Assets\app-icon.ico</ApplicationIcon>
+    <Copyright>Nick Rimmer</Copyright>
+    <PackageProjectUrl>https://github.com/NickRimmer/SlowCow</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/NickRimmer/SlowCow</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageIcon>app-icon.png</PackageIcon>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
   </PropertyGroup>
+  
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**"/>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\docs\app-icon.png" Pack="true" PackagePath="app-icon.png"/>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath=".\"/>
+    <None Include="..\..\README.md" Pack="true" PackagePath=".\"/>
+  </ItemGroup>
 
   <!-- when debug, build WinExe, otherwise library -->
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -23,10 +42,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Assets\**"/>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.6"/>
     <PackageReference Include="Avalonia.Desktop" Version="11.0.6"/>
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.6"/>
@@ -34,9 +49,9 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.6"/>
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.6"/>
-    <PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
-    <PackageReference Include="WindowsShortcutFactory" Version="1.1.0" />
+    <PackageReference Include="WindowsShortcutFactory" Version="1.1.0"/>
   </ItemGroup>
 </Project>

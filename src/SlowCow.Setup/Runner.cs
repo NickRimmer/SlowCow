@@ -40,11 +40,11 @@ public static class Runner
     {
         var args = Environment.GetCommandLineArgs();
 
-        // try to find channel name in arguments
-        if (TryGetArgsValue(args, "channel", out var channel))
-            runnerSettings = runnerSettings with {
-                Channel = channel,
-            };
+        if (TryGetArgsValue(args, Constants.SetupArgNameChannel, out var channel))
+            runnerSettings = runnerSettings with { Channel = channel };
+
+        if (TryGetArgsValue(args, Constants.SetupArgNameParentProcessId, out var parentProcessId))
+            runnerSettings = runnerSettings with { ParentProcessId = parentProcessId };
 
         runnerSettings = runnerSettings with {
             HasRepairFlag = ArgsHasFlag(args, "repair"),

@@ -3,4 +3,5 @@
 public interface IUpdater
 {
     SlowCowVersion? GetVersion();
+    bool InstallLatest();
 }

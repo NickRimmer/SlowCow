@@ -11,15 +11,23 @@
             IsIndeterminate="True"
             Background="{DynamicResource ProgressBackground}"
             Foreground="{DynamicResource ProgressForeground}" />
-        <Label
-            x:Name="ActionLoadingPanel"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            FontSize="20"
-            Margin="30"
-            FontWeight="ExtraLight"
-            Foreground="{DynamicResource ForegroundLightSecond}">
-            Loading details...
-        </Label>
+        <StackPanel Orientation="Vertical" Margin="30">
+            <Label
+                x:Name="ActionLoadingPanel"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                FontSize="20"
+                FontWeight="ExtraLight"
+                Foreground="{DynamicResource ForegroundLightSecond}">
+                Loading details...
+            </Label>
+            <Label
+                x:Name="DetailsLabel"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                FontSize="14"
+                FontWeight="ExtraLight"
+                Foreground="{DynamicResource ForegroundLightSecond}"/>
+        </StackPanel>
     </StackPanel>
 </UserControl>

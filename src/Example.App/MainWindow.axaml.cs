@@ -23,7 +23,7 @@ public partial class MainWindow : Window
         {
             try
             {
-                var updates = await SlowCowUpdater.GetVersionAsync();
+                var updates = SlowCowUpdater.GetVersion();
                 await Dispatcher.UIThread.InvokeAsync(() => MessageBoxManager
                     .GetMessageBoxStandard(
                         "Check for updates",
@@ -44,5 +44,34 @@ public partial class MainWindow : Window
                 await Dispatcher.UIThread.InvokeAsync(() => button.IsEnabled = true);
             }
         }).ConfigureAwait(false);
+    }
+
+    private void InstallUpdates_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var button = (Button) sender!;
+        button.IsEnabled = false;
+
+        Task.Run(async () =>
+        {
+            try
+            {
+                if (!SlowCowUpdater.InstallLatestVersion())
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() => MessageBoxManager
+                        .GetMessageBoxStandard("Not updated", "No updates available", icon: MsBox.Avalonia.Enums.Icon.Info)
+                        .ShowWindowDialogAsync(this));
+                }
+            }
+            catch (SlowCowException ex)
+            {
+                await Dispatcher.UIThread.InvokeAsync(() => MessageBoxManager
+                    .GetMessageBoxStandard("Cannot check for updates", ex.Message, icon: MsBox.Avalonia.Enums.Icon.Warning)
+                    .ShowWindowDialogAsync(this));
+            }
+            finally
+            {
+                await Dispatcher.UIThread.InvokeAsync(() => button.IsEnabled = true);
+            }
+        });
     }
 }

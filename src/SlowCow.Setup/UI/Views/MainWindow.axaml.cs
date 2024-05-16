@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
@@ -35,8 +37,21 @@ public partial class MainWindow : Window
     {
         try
         {
-            var versionsManager = Runner.Services.GetRequiredService<UpdatesInfoService>();
             var runnerSettings = Runner.Services.GetRequiredService<RunnerModel>();
+            if (!string.IsNullOrWhiteSpace(runnerSettings.ParentProcessId))
+            {
+                // If the setup is started by another process, check if process with id started and wait for it to exit
+                var processId = int.Parse(runnerSettings.ParentProcessId);
+                var parentProcess = Process.GetProcesses().FirstOrDefault(x => x.Id == processId);
+                if (parentProcess != null)
+                {
+                    LoadingView.ActionLoadingPanel.Content = "Please Wait...";
+                    LoadingView.DetailsLabel.Content = "The application is shutting down to apply updates";
+                    await parentProcess.WaitForExitAsync();
+                }
+            }
+
+            var versionsManager = Runner.Services.GetRequiredService<UpdatesInfoService>();
             var setupProvider = Runner.Services.GetRequiredService<ISetup>();
             var installer = Runner.Services.GetRequiredService<InstallerProvider>().GetInstaller();
 

@@ -22,6 +22,7 @@ public record RunnerModel
     public required string Description { get; init; } = "Please provide a description for your application.";
     public string Publisher { get; init; } = string.Empty;
     public string Channel { get; init; } = DefaultChannel;
+    public string? ParentProcessId { get; init; }
     public bool HasRepairFlag { get; init; }
 
     public string InstallationFolderName => Name;

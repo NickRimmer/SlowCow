@@ -19,7 +19,7 @@
 
         <!-- action area -->
         <Panel Grid.Row="2" Background="{StaticResource AccentGradient}">
-            <views:ActionLoadingView IsVisible="{Binding Started, Converter={x:Static BoolConverters.Not}, ConverterParameter=true}" />
+            <views:ActionLoadingView IsVisible="{Binding Started, Converter={x:Static BoolConverters.Not}, ConverterParameter=true}" x:Name="LoadingView" />
             <views:ActionInstallView DataContext="{Binding InstallationData}" IsVisible="{Binding $self.DataContext, Converter={x:Static ObjectConverters.IsNotNull}}" />
             <views:ActionAlreadyInstalled DataContext="{Binding AlreadyInstalledData}" IsVisible="{Binding $self.DataContext, Converter={x:Static ObjectConverters.IsNotNull}}" />
             <views:ActionErrorView DataContext="{Binding ErrorData}" IsVisible="{Binding $self.DataContext, Converter={x:Static ObjectConverters.IsNotNull}}" />

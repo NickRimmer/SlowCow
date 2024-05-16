@@ -21,8 +21,5 @@ jobs:
         with:
           dotnet-version: "8.x"
 
-      - name: Restore packages
-        run: dotnet restore ${{ matrix.project }}
-
       - name: Build Debug
         run: dotnet build ${{ matrix.project }} -c Release

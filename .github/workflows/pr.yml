@@ -11,7 +11,6 @@ jobs:
     strategy:
       matrix:
         project: ['src/SlowCow.Setup/SlowCow.Setup.csproj', 'src/Example.Setup/Example.Setup.csproj', 'src/Example.App/Example.App.csproj']
-        configuration: ['Release', 'Debug']
 
     steps:
       - name: Checkout code
@@ -26,4 +25,4 @@ jobs:
         run: dotnet restore ${{ matrix.project }}
 
       - name: Build Debug
-        run: dotnet build ${{ matrix.project }} -c ${{ matrix.configuration }}
+        run: dotnet build ${{ matrix.project }} -c Release

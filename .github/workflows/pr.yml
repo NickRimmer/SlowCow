@@ -1,0 +1,28 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        project: ['src/SlowCow.Setup/SlowCow.Setup.csproj', 'src/Example.Setup/Example.Setup.csproj', 'src/Example.App/Example.App.csproj']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "8.x"
+
+      - name: Restore packages
+        run: dotnet restore ${{ matrix.project }}
+
+      - name: Build Debug
+        run: dotnet build ${{ matrix.project }} -c Release

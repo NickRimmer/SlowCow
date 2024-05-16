@@ -23,6 +23,8 @@ jobs:
           dotnet-version: "8.x"
 
       - name: Run PowerShell script
+        env:
+          nugetApiKey: ${{ secrets.NUGETAPIKEY }}
         run: |
           $version = "${{ github.event.inputs.version }}"
           if ($null -ne $version) {

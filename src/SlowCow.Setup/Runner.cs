@@ -19,6 +19,7 @@ using SlowCow.Setup.Modules.Setups.Base.Exceptions;
 using SlowCow.Setup.Modules.Setups.LocalSetup;
 using SlowCow.Setup.Modules.Updates;
 using SlowCow.Setup.UI;
+using SlowCow.Shared;
 namespace SlowCow.Setup;
 
 public static class Runner
@@ -80,7 +81,7 @@ public static class Runner
             return;
         }
 
-        if (TryGetArgsValue(args, "get-version", out var versionFileName))
+        if (TryGetArgsValue(args, Constants.SetupArgNameGetVersion, out var versionFileName))
         {
             await RunGetVersionAsync(versionFileName);
             return;

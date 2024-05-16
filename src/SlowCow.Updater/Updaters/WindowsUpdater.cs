@@ -1,26 +1,26 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Reflection;
 using Newtonsoft.Json;
-namespace Example.App;
+using SlowCow.Shared;
+using SlowCow.Updater.Common;
+namespace SlowCow.Updater.Updaters;
 
-public static class Updater
+internal class WindowsUpdater: IUpdater
 {
-    public static VersionInfo? GetUpdates()
+    public SlowCowVersion? GetVersion()
     {
         // by default, the setup file is located in the parent directory
         var installationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "..");
-        var setupPath = Path.Combine(installationPath, "Setup.exe");
+        var setupPath = Path.Combine(installationPath, Constants.WindowsSetupFileName);
 
         if (!File.Exists(setupPath))
-            throw new UpdaterException($"The setup file is missing. ({setupPath})");
+            throw new SlowCowException($"The setup file is missing. ({setupPath})");
 
         var versionOutputFilePath = Path.Combine(Path.GetTempPath(), Path.GetTempFileName() + ".json");
         var process = new Process {
             StartInfo = new ProcessStartInfo {
                 FileName = setupPath,
-                Arguments = $"--get-version={versionOutputFilePath}",
+                Arguments = $"--{Constants.SetupArgNameGetVersion}={versionOutputFilePath}",
                 UseShellExecute = false,
                 CreateNoWindow = true,
             },
@@ -33,14 +33,11 @@ public static class Updater
         try
         {
             var json = File.ReadAllText(versionOutputFilePath);
-            return JsonConvert.DeserializeObject<VersionInfo>(json);
+            return JsonConvert.DeserializeObject<SlowCowVersion>(json);
         }
         catch
         {
-            throw new UpdaterException("No version information found");
+            throw new SlowCowException("No version information found");
         }
     }
-
-    public record VersionInfo(string? InstalledVersion, string? AvailableVersion, bool UpdateAvailable, string Channel);
-    public class UpdaterException(string message) : Exception(message);
 }

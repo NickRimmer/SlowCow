@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using SlowCow.Setup.Modules.Installers;
 using SlowCow.Setup.Modules.Runner;
 using SlowCow.Setup.Modules.Setups.Base;
+using SlowCow.Shared.Models;
 namespace SlowCow.Setup.Modules.Updates;
 
 internal class UpdatesInfoService

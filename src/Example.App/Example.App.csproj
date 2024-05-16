@@ -23,4 +23,8 @@
     <PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SlowCow.Updater\SlowCow.Updater.csproj" />
+  </ItemGroup>
 </Project>

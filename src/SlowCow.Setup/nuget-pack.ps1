@@ -7,6 +7,11 @@ param(
     [switch] $dry
 )
 
+# set script folder as current directory
+$scriptPath = $MyInvocation.MyCommand.Path
+$scriptFolder = Split-Path $scriptPath
+Set-Location $scriptFolder
+
 # auto increment version
 if (-not $versionStr)
 {
@@ -22,8 +27,8 @@ if (-not $versionStr)
 }
 
 # build and publish
-dotnet build -c Release -p:Version=$version
-dotnet pack -c Release -p:Version=$version
+dotnet build 'SlowCow.Setup.csproj' -c Release -p:Version=$version
+dotnet pack 'SlowCow.Setup.csproj' -c Release -p:Version=$version
 
 # if not dry
 if (-not $dry)

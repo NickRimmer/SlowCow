@@ -23,6 +23,13 @@
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <OutputType>Library</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
   
   <ItemGroup>
@@ -34,15 +41,6 @@
     <None Include="..\..\LICENSE" Pack="true" PackagePath=".\"/>
     <None Include="..\..\README.md" Pack="true" PackagePath=".\"/>
   </ItemGroup>
-
-  <!-- when debug, build WinExe, otherwise library -->
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <OutputType>WinExe</OutputType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
-  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.6"/>

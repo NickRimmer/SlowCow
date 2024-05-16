@@ -27,6 +27,7 @@ if (-not $versionStr)
 }
 
 # build and publish
+dotnet clean 'SlowCow.Setup.csproj' -c Release
 dotnet build 'SlowCow.Setup.csproj' -c Release -p:Version=$version
 dotnet pack 'SlowCow.Setup.csproj' -c Release -p:Version=$version
 

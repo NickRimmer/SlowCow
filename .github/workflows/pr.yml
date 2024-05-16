@@ -20,9 +20,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: "8.x"
-          
-      - name: Create packages folder
-        run: mkdir src/packages
 
       - name: Build Debug
         run: dotnet build ${{ matrix.project }} -c Release

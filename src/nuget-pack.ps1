@@ -28,12 +28,6 @@ if (-not $versionStr -or $versionStr -eq "")
     Write-Host "Version: $version" -BackgroundColor Green -ForegroundColor Black
 }
 
-# create packages directory if not exists
-if (-not (Test-Path "../packages"))
-{
-    New-Item -ItemType Directory -Path "../packages"
-}
-
 # build and publish
 # dotnet clean "$packageId.csproj" -c Release
 dotnet build "$packageId.csproj" -c Release -p:Version=$version

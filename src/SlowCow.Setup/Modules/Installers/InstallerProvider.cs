@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using SlowCow.Setup.Modules.Installers.Base;
+using SlowCow.Shared;
 namespace SlowCow.Setup.Modules.Installers;
 
 internal class InstallerProvider
@@ -15,7 +16,7 @@ internal class InstallerProvider
 
     public IInstaller GetInstaller()
     {
-        if (OperatingSystem.IsWindows() && TryGetInstaller<WindowsInstaller>(out var windowsInstaller)) return windowsInstaller;
+        if (CurrentSystem.IsWindows() && TryGetInstaller<WindowsInstaller>(out var windowsInstaller)) return windowsInstaller;
 
         // platform is not supported
         throw new NotSupportedException("Platform is not supported.");

@@ -19,6 +19,7 @@ using SlowCow.Setup.Modules.Setups.Base.Exceptions;
 using SlowCow.Setup.Modules.Setups.LocalSetup;
 using SlowCow.Setup.Modules.Updates;
 using SlowCow.Setup.UI;
+using SlowCow.Shared;
 namespace SlowCow.Setup;
 
 public static class Runner
@@ -39,11 +40,11 @@ public static class Runner
     {
         var args = Environment.GetCommandLineArgs();
 
-        // try to find channel name in arguments
-        if (TryGetArgsValue(args, "channel", out var channel))
-            runnerSettings = runnerSettings with {
-                Channel = channel,
-            };
+        if (TryGetArgsValue(args, Constants.SetupArgNameChannel, out var channel))
+            runnerSettings = runnerSettings with { Channel = channel };
+
+        if (TryGetArgsValue(args, Constants.SetupArgNameParentProcessId, out var parentProcessId))
+            runnerSettings = runnerSettings with { ParentProcessId = parentProcessId };
 
         runnerSettings = runnerSettings with {
             HasRepairFlag = ArgsHasFlag(args, "repair"),
@@ -80,7 +81,7 @@ public static class Runner
             return;
         }
 
-        if (TryGetArgsValue(args, "get-version", out var versionFileName))
+        if (TryGetArgsValue(args, Constants.SetupArgNameGetVersion, out var versionFileName))
         {
             await RunGetVersionAsync(versionFileName);
             return;

@@ -27,8 +27,6 @@ jobs:
           nugetApiKey: ${{ secrets.NUGETAPIKEY }}
         run: |
           $version = "${{ github.event.inputs.version }}"
-          if ($null -ne $version) {
-            pwsh -File ./src/SlowCow.Setup/nuget-pack.ps1 -version $version
-          } else {
-            pwsh -File ./src/SlowCow.Setup/nuget-pack.ps1
-          }
+          pwsh -File ./src/nuget-pack.ps1 -packageId "SlowCow.Setup" -version "$version"
+          pwsh -File ./src/nuget-pack.ps1 -packageId "SlowCow.Updater" -version "$version"
+

@@ -14,6 +14,7 @@ using SlowCow.Setup.Modules.Runner;
 using SlowCow.Setup.Modules.Setups.Base;
 using SlowCow.Setup.Modules.Setups.Base.Exceptions;
 using SlowCow.Setup.Modules.Setups.Base.Models;
+using SlowCow.Shared;
 using WindowsShortcutFactory;
 namespace SlowCow.Setup.Modules.Installers;
 
@@ -79,12 +80,12 @@ internal class WindowsInstaller : BaseInstaller
 
             // copy itself to installation folder
             var selfPath = Process.GetCurrentProcess().MainModule!.FileName;
-            var selfDestination = Path.Combine(installationPath, "Setup.exe");
+            var selfDestination = Path.Combine(installationPath, Constants.WindowsSetupFileName);
 
             // try to update setup file in installation folder
             try
             {
-                if (!File.Exists(selfDestination)) File.Move(selfDestination, Path.Combine(backupDirectory, Path.GetFileName(selfDestination)), true);
+                if (File.Exists(selfDestination)) File.Move(selfDestination, Path.Combine(backupDirectory, Path.GetFileName(selfDestination)), true);
                 File.Copy(selfPath, selfDestination, true);
             }
             catch

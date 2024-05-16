@@ -9,8 +9,8 @@
 
     <Title>SlowCow Setup</Title>
     <Authors>Nick Rimmer</Authors>
-    <Description>Slow Cow Setup - is simple library to build you own Installer for your awesome app</Description>
-    <PackageTags>Installer, Setup, Slow Cow</PackageTags>
+    <Description>SlowCow Setup - is simple library to build you own Installer for your awesome app</Description>
+    <PackageTags>Installer, Setup, Updater, SlowCow</PackageTags>
     <ApplicationIcon>Assets\app-icon.ico</ApplicationIcon>
     <Copyright>Nick Rimmer</Copyright>
     <PackageProjectUrl>https://github.com/NickRimmer/SlowCow</PackageProjectUrl>
@@ -23,6 +23,13 @@
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <OutputType>Library</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
   
   <ItemGroup>
@@ -34,15 +41,6 @@
     <None Include="..\..\LICENSE" Pack="true" PackagePath=".\"/>
     <None Include="..\..\README.md" Pack="true" PackagePath=".\"/>
   </ItemGroup>
-
-  <!-- when debug, build WinExe, otherwise library -->
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <OutputType>WinExe</OutputType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
-  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.6"/>
@@ -56,5 +54,9 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     <PackageReference Include="WindowsShortcutFactory" Version="1.1.0"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SlowCow.Shared\SlowCow.Shared.csproj" />
   </ItemGroup>
 </Project>

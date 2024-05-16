@@ -3,10 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCow.Setup", "SlowCow.Setup\SlowCow.Setup.csproj", "{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Setup", "Example.Setup\Example.Setup.csproj", "{FC8E379F-8FB4-4174-B28C-395CB2D235F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F3EA1FEC-8A01-4866-818F-509C6FEDCE72} = {F3EA1FEC-8A01-4866-818F-509C6FEDCE72}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.App", "Example.App\Example.App.csproj", "{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C02D1DB6-DF8F-40F4-9921-EB9DF8B67C88} = {C02D1DB6-DF8F-40F4-9921-EB9DF8B67C88}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCow.Updater", "SlowCow.Updater\SlowCow.Updater.csproj", "{C02D1DB6-DF8F-40F4-9921-EB9DF8B67C88}"
+	ProjectSection(ProjectDependencies) = postProject
+		{93CFCC38-AC92-414C-8447-7123E466E924} = {93CFCC38-AC92-414C-8447-7123E466E924}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCow.Shared", "SlowCow.Shared\SlowCow.Shared.csproj", "{93CFCC38-AC92-414C-8447-7123E466E924}"
 EndProject
@@ -14,27 +23,38 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Local NuGet|Any CPU = Local NuGet|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}.Local NuGet|Any CPU.ActiveCfg = Local NuGet|Any CPU
+		{F3EA1FEC-8A01-4866-818F-509C6FEDCE72}.Local NuGet|Any CPU.Build.0 = Local NuGet|Any CPU
 		{FC8E379F-8FB4-4174-B28C-395CB2D235F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FC8E379F-8FB4-4174-B28C-395CB2D235F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC8E379F-8FB4-4174-B28C-395CB2D235F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC8E379F-8FB4-4174-B28C-395CB2D235F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC8E379F-8FB4-4174-B28C-395CB2D235F4}.Local NuGet|Any CPU.ActiveCfg = Local NuGet|Any CPU
+		{FC8E379F-8FB4-4174-B28C-395CB2D235F4}.Local NuGet|Any CPU.Build.0 = Local NuGet|Any CPU
 		{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}.Local NuGet|Any CPU.ActiveCfg = Local NuGet|Any CPU
+		{69979686-E1EC-4D64-8E11-E7AF9F0F64E1}.Local NuGet|Any CPU.Build.0 = Local NuGet|Any CPU
 		{C02D1DB6-DF8F-40F4-9921-EB9DF8B67C88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C02D1DB6-DF8F-40F4-9921-EB9DF8B67C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C02D1DB6-DF8F-40F4-9921-EB9DF8B67C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C02D1DB6-DF8F-40F4-9921-EB9DF8B67C88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C02D1DB6-DF8F-40F4-9921-EB9DF8B67C88}.Local NuGet|Any CPU.ActiveCfg = Local NuGet|Any CPU
+		{C02D1DB6-DF8F-40F4-9921-EB9DF8B67C88}.Local NuGet|Any CPU.Build.0 = Local NuGet|Any CPU
 		{93CFCC38-AC92-414C-8447-7123E466E924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93CFCC38-AC92-414C-8447-7123E466E924}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93CFCC38-AC92-414C-8447-7123E466E924}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93CFCC38-AC92-414C-8447-7123E466E924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93CFCC38-AC92-414C-8447-7123E466E924}.Local NuGet|Any CPU.ActiveCfg = Local NuGet|Any CPU
+		{93CFCC38-AC92-414C-8447-7123E466E924}.Local NuGet|Any CPU.Build.0 = Local NuGet|Any CPU
 	EndGlobalSection
 EndGlobal

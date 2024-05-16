@@ -29,12 +29,14 @@ if (-not $versionStr -or $versionStr -eq "")
 }
 
 # build and publish
-dotnet clean "$packageId.csproj" -c Release
+# dotnet clean "$packageId.csproj" -c Release
 dotnet build "$packageId.csproj" -c Release -p:Version=$version
-dotnet pack "$packageId.csproj" -c Release -p:Version=$version
+dotnet pack "$packageId.csproj" -c Release -p:Version=$version -o "../packages"
 
 # if not dry
 if (-not $dry)
 {
-    nuget push "bin/Release/$packageId.$version.nupkg" -Source "https://api.nuget.org/v3/index.json" -ApiKey $env:nugetApiKey
+    nuget push "../packages/$packageId.$version.nupkg" -Source "https://api.nuget.org/v3/index.json" -ApiKey $env:nugetApiKey
 }
+
+Set-Location -Path $scriptFolder

@@ -7,6 +7,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <ApplicationIcon>app-icon.ico</ApplicationIcon>
+    <Configurations>Debug;Release;Local NuGet</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -24,7 +26,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SlowCow.Updater\SlowCow.Updater.csproj" />
+  <ItemGroup Condition="'$(Configuration)' != 'Local NuGet'">
+    <ProjectReference Include="..\SlowCow.Updater\SlowCow.Updater.csproj"/>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Local NuGet'">
+    <PackageReference Include="SlowCow.Updater" Version="99.99.99"/>
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        project: ['src/SlowCow.Setup/SlowCow.Setup.csproj', 'src/Example.Setup/Example.Setup.csproj', 'src/Example.App/Example.App.csproj']
+        project: ['src/SlowCow.Setup/SlowCow.Setup.csproj', 'src/Example.Setup/Example.Setup.csproj', 'src/Example.App/Example.App.csproj', 'src/SlowCow.Updater/SlowCow.Updater.csproj']
 
     steps:
       - name: Checkout code

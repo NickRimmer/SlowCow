@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version of the package'
+        description: 'Version of the package (1.2.3 format)'
         required: false
 
 jobs:

@@ -31,5 +31,5 @@ dotnet pack "$projectPath" -c Release -p:Version=$version -o "./packages"
 # if not dry
 if (-not $dry)
 {
-    nuget push "../packages/$packageId.$version.nupkg" -Source "https://api.nuget.org/v3/index.json" -ApiKey $env:nugetApiKey
+    nuget push "./packages/$packageId.$version.nupkg" -Source "https://api.nuget.org/v3/index.json" -ApiKey $env:nugetApiKey
 }

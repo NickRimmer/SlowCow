@@ -2,8 +2,6 @@
 
 public record RunnerSettingsModel
 {
-    public const string DefaultChannel = "stable";
-
     /// <summary>
     /// Unique identifier of the application is required for installing/uninstalling process.
     /// </summary>
@@ -19,7 +17,7 @@ public record RunnerSettingsModel
     /// </summary>
     public required string Name { get; init; } = "Application Name";
     public required string Description { get; init; } = "Please provide a description for your application.";
-    public string Channel { get; init; } = DefaultChannel;
+    public required string Channel { get; init; }
     public string? ParentProcessId { get; init; }
     public bool HasRepairFlag { get; init; }
 }

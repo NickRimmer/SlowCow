@@ -2,9 +2,11 @@
 
 public record RepoReleaseModel
 {
+    public const string DefaultChannel = "stable";
+
     public required string Version { get; init; }
     public ReleaseNotesModel ReleaseNotes { get; init; } = new ();
-    public required string Channel { get; init; }
+    public string Channel { get; init; } = DefaultChannel;
 
     public record ReleaseNotesModel
     {

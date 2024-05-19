@@ -190,6 +190,7 @@ public static class Runner
 
         var settingsJson = File.ReadAllText(settingsFile);
         var settings = JsonConvert.DeserializeObject<RepoReleaseModelExt>(settingsJson) ?? throw new RepoException("Failed to read settings from JSON");
+        if (string.IsNullOrWhiteSpace(settings.Channel)) settings = settings with { Channel = RepoReleaseModel.DefaultChannel };
 
         var repo = Services.GetRequiredService<IRepo>();
         var logger = Services.GetRequiredService<ILogger>();

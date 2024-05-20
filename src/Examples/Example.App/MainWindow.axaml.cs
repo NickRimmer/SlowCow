@@ -25,7 +25,7 @@ public partial class MainWindow : Window
     {
         Task.Run(() =>
         {
-            var version = _updater.GetCurrentInfo()?.Version;
+            var version = _updater.GetCurrentInfo()?.Version ?? "unknown version";
             Dispatcher.UIThread.Invoke(() => VersionLabel.Content = version);
         });
 

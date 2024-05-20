@@ -16,16 +16,16 @@ var settings = new RunnerSettingsModel {
 
 // in this example we will use GitHub as a repository
 // use your own GitHub token with read only access to the Releases
-var readonlyGhToken = "github_pat_11AANMJGI0aRETg2gfhG8N_Yx9Qw4rW "+
+var readonlyGhToken = "github_pat_11AANMJGI0aRETg2gfhG8N_Yx9Qw4rW " +
     "KFC4ND2TDIcHlakJGdwZmChKZeAfGiGV097DQCBKFYCIFkuXRzO"; // otherwise GitHub reject pushes
 
 // that how we can use custom token, for example for writing to the repository
 var writerGhToken = args?.FirstOrDefault(x => x.StartsWith("--gh-token="))?.Substring("--gh-token=".Length).Trim();
-if (string.IsNullOrWhiteSpace(writerGhToken)) writerGhToken = Environment.GetEnvironmentVariable("GH_TOKEN");
+if (string.IsNullOrWhiteSpace(writerGhToken)) writerGhToken = Environment.GetEnvironmentVariable("GITHUB_PAT");
 
 // create repo instance
 var ghToken = !string.IsNullOrWhiteSpace(writerGhToken) ? writerGhToken : readonlyGhToken;
-var repo = new GitHubRepo("NickRimmer", "SlowCow.ExamplePrivate", ghToken);
+var repo = new GitHubRepo("SlowCow-Project", "Repo.Private", ghToken);
 
 // now we need to create installer for the current operating system
 IInstaller? installer = null;

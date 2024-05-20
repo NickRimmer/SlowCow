@@ -18,4 +18,4 @@ Install-Package SlowCow.Setup.Base
 
 ## Basic Usage
 
-You can find examples in `SlowCow.Setup.Windows.Installer` and `SlowCow.Setup.Windows.Updater` [projects](https://github.com/NickRimmer/SlowCow/tree/main/src/Setup)
+You can find examples in `SlowCow.Setup.Windows.Installer` and `SlowCow.Setup.Windows.Updater` [projects](https://github.com/SlowCow-Project/SlowCow/tree/main/src/Setup)

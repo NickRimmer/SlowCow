@@ -23,4 +23,4 @@ var logger = /* Microsoft.Extensions.Logging instance */ ;
 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return new WindowsUpdater(logger);
 ```
 
-Check [examples](https://github.com/NickRimmer/SlowCow/tree/main/src/Examples/Example.App) for more details.
+Check [examples](https://github.com/SlowCow-Project/SlowCow/tree/main/src/Examples/Example.App) for more details.

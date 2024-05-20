@@ -32,4 +32,4 @@ var ghToken = !string.IsNullOrWhiteSpace(writerGhToken) ? writerGhToken : readon
 var repo = new GitHubRepo("NickRimmer", "SlowCow.ExamplePrivate", ghToken);
 ```
 
-Check [examples](https://github.com/NickRimmer/SlowCow/tree/main/src/Examples/Example.Setup) for more details.
+Check [examples](https://github.com/SlowCow-Project/SlowCow/tree/main/src/Examples/Example.Setup) for more details.

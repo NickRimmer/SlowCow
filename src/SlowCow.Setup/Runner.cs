@@ -50,6 +50,9 @@ public static class Runner
         if (TryGetArgsValue(args, "parent", out var parentProcessId))
             runnerSettings = runnerSettings with { ParentProcessId = parentProcessId };
 
+        if (TryGetArgsValue(args, "version", out var version))
+            runnerSettings = runnerSettings with { CustomVersion = version };
+
         runnerSettings = runnerSettings with {
             HasRepairFlag = ArgsHasFlag(args, "repair"),
         };
@@ -92,7 +95,7 @@ public static class Runner
         {
             logger.LogInformation("Uploading...");
             if (!File.Exists(packSettingsFile)) throw new RepoException($"Settings file '{packSettingsFile}' does not exist.");
-            await RunUploadAsync(packSettingsFile);
+            await RunUploadAsync(packSettingsFile, runnerSettings);
             return;
         }
 
@@ -182,7 +185,7 @@ public static class Runner
         File.Copy(sourceFile, targetFile, true);
     }
 
-    private static Task<bool> RunUploadAsync(string settingsFile)
+    private static Task<bool> RunUploadAsync(string settingsFile, RunnerSettingsModel runnerSettings)
     {
         AppBuilder
             .Configure<Dummy>()
@@ -191,7 +194,9 @@ public static class Runner
 
         var settingsJson = File.ReadAllText(settingsFile);
         var settings = JsonConvert.DeserializeObject<RepoReleaseModelExt>(settingsJson) ?? throw new RepoException("Failed to read settings from JSON");
-        if (string.IsNullOrWhiteSpace(settings.Channel)) settings = settings with { Channel = RepoReleaseModel.DefaultChannel };
+        if (string.IsNullOrWhiteSpace(settings.Channel)) settings = settings with { Channel = runnerSettings.Channel };
+        if (string.IsNullOrWhiteSpace(settings.Version) && !string.IsNullOrWhiteSpace(runnerSettings.CustomVersion))
+            settings = settings with { Version = runnerSettings.CustomVersion };
 
         var repo = Services.GetRequiredService<IRepo>();
         var logger = Services.GetRequiredService<ILogger>();

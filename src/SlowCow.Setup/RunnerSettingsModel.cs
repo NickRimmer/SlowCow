@@ -19,5 +19,6 @@ public record RunnerSettingsModel
     public required string Description { get; init; } = "Please provide a description for your application.";
     public required string Channel { get; init; }
     public string? ParentProcessId { get; init; }
+    public string? CustomVersion { get; init; }
     public bool HasRepairFlag { get; init; }
 }

@@ -13,8 +13,8 @@
     <Authors>Nick Rimmer</Authors>
     <Copyright>Nick Rimmer</Copyright>
     <PackageTags>Installer, Setup, Updater, SlowCow</PackageTags>
-    <PackageProjectUrl>https://github.com/NickRimmer/SlowCow</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/NickRimmer/SlowCow</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SlowCow-Project/SlowCow</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SlowCow-Project/SlowCow</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
 
     <PackageIcon>app-icon.png</PackageIcon>

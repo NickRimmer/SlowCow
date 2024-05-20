@@ -29,4 +29,4 @@ var installerSettings = new InstallerSettingsModel {
 if (OperatingSystem.IsWindows()) installer = new WindowsInstaller(installerSettings);
 ```
 
-Check [examples](https://github.com/NickRimmer/SlowCow/tree/main/src/Examples/Example.Setup) for more details.
+Check [examples](https://github.com/SlowCow-Project/SlowCow/tree/main/src/Examples/Example.Setup) for more details.

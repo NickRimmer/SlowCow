@@ -5,7 +5,7 @@
 
 Simple installer on C#
 
-![Application screenshot](https://raw.githubusercontent.com/NickRimmer/SlowCow/main/docs/app-screenshot.jpg)
+![Application screenshot](https://raw.githubusercontent.com/SlowCow-Project/SlowCow/main/docs/app-screenshot.jpg)
 
 
 ## Under Development

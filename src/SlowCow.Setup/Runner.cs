@@ -26,6 +26,7 @@ public static class Runner
             Description = string.Empty,
             ApplicationId = Guid.Empty,
             ExecutableFileName = "Example.App.exe",
+            Channel = RepoReleaseModel.DefaultChannel,
         })
         .AddSingleton<IRepo>(new InDesignRepo())
         .BuildServiceProvider();
@@ -95,10 +96,10 @@ public static class Runner
             return;
         }
 
-        if (TryGetArgsValue(args, "get-version", out var versionFileName))
+        if (TryGetArgsValue(args, "get-update", out var versionFileName))
         {
-            logger.LogInformation("Getting version...");
-            await RunGetVersionAsync(versionFileName);
+            logger.LogInformation("Getting update information...");
+            await RunGetUpdateAsync(versionFileName);
             return;
         }
 
@@ -226,7 +227,7 @@ public static class Runner
             .StartWithClassicDesktopLifetime([], ShutdownMode.OnExplicitShutdown);
     }
 
-    private static async Task RunGetVersionAsync(string filePath)
+    private static async Task RunGetUpdateAsync(string filePath)
     {
         var logger = Services.GetRequiredService<ILogger>();
         try

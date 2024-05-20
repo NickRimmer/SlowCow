@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using SlowCow.Setup.Base;
 using SlowCow.Setup.Base.Exceptions;
 using SlowCow.Setup.Base.Models;
 using WindowsShortcutFactory;
@@ -29,7 +30,7 @@ public partial class WindowsInstaller
 
         // let's check if files are locked by another process
         var installationPath = InstallationPath;
-        var targetDirectory = Path.Combine(installationPath, AppFolderName);
+        var targetDirectory = Path.Combine(installationPath, Constants.AppFolderName);
         if (FindLockedFiles(targetDirectory, out var lockedFiles))
         {
             logger.LogError("Cannot install package. {Count} files are locked by another process", lockedFiles.Count);
@@ -115,7 +116,7 @@ public partial class WindowsInstaller
             throw new PlatformNotSupportedException("This method is only supported on Windows.");
 
         var result = new Dictionary<string, string>();
-        var executablePath = Path.Combine(InstallationPath, AppFolderName, _installerSettings.ExecutableFileName);
+        var executablePath = Path.Combine(InstallationPath, Constants.AppFolderName, _installerSettings.ExecutableFileName);
 
         if (settings.AddDesktop)
             result.Add(RegisterShortcutDesktopKey, AddShortcut(executablePath, Environment.GetFolderPath(Environment.SpecialFolder.Desktop), _installerSettings.ApplicationName));

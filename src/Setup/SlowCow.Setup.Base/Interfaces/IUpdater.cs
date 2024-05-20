@@ -3,6 +3,7 @@ namespace SlowCow.Setup.Base.Interfaces;
 
 public interface IUpdater
 {
-    SlowCowVersion? GetVersion();
+    SlowCowVersion? GetUpdateInfo();
+    ReleaseInfoModel GetCurrentInfo();
     bool InstallLatest(bool force);
 }

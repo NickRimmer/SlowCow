@@ -84,7 +84,7 @@ public partial class MainWindow : Window
         await Task.Delay(1000);
         await Dispatcher.UIThread.InvokeAsync(() => ShowInstallationPanel(new RepoReleaseModel {
             Version = "1.2.3-design",
-            Channel = RunnerSettingsModel.DefaultChannel,
+            Channel = RepoReleaseModel.DefaultChannel,
             ReleaseNotes = new RepoReleaseModel.ReleaseNotesModel {
                 Text = "This is a design-time release notes message.",
             },

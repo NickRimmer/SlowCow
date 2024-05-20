@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using SlowCow.Setup.Base;
 using SlowCow.Setup.Base.Exceptions;
 using SlowCow.Setup.Base.Interfaces;
 using SlowCow.Setup.Base.Models;
@@ -8,9 +9,6 @@ namespace SlowCow.Setup.Windows.Installer;
 
 public partial class WindowsInstaller : IInstaller
 {
-    private const string AppFolderName = "current";
-    private const string ReleaseInfoFileName = "release.json";
-
     [GeneratedRegex("[^a-zA-Z0-9\\s]")]
     private static partial Regex GetInstallationFolderNameRegex();
 
@@ -31,7 +29,7 @@ public partial class WindowsInstaller : IInstaller
 
     public string InstallationPath => _installationPath.Value;
 
-    private string GetReleaseInfoPath() => Path.Combine(InstallationPath, AppFolderName, ReleaseInfoFileName);
+    private string GetReleaseInfoPath() => Path.Combine(InstallationPath, Constants.AppFolderName, Constants.ReleaseInfoFileName);
 
     private void RunPostSetup(string command, ILogger logger)
     {

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SlowCow.Setup.Base;
 using SlowCow.Setup.Base.Exceptions;
 using SlowCow.Setup.Base.Interfaces;
 using SlowCow.Setup.Base.Models;
@@ -9,18 +9,28 @@ namespace SlowCow.Setup.Windows.Updater;
 
 public class WindowsUpdater : IUpdater
 {
+    private readonly string _installationPath;
     private readonly ILogger _logger;
-    public WindowsUpdater(ILogger logger)
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WindowsUpdater"/> class.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="installationPath">Installation path, stay null or empty to find it automatically.</param>
+    public WindowsUpdater(ILogger logger, string? installationPath = null)
     {
+        if (string.IsNullOrWhiteSpace(installationPath)) throw new ArgumentException("Value cannot be null or whitespace.", nameof(installationPath));
+
+        _installationPath = string.IsNullOrWhiteSpace(installationPath) ? FindInstallationPath() : installationPath;
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public SlowCowVersion? GetVersion()
+    public SlowCowVersion? GetUpdateInfo()
     {
         // run command
         var outputFilePath = Path.Combine(Path.GetTempPath(), Path.GetTempFileName() + ".json");
         RunSetup(new Dictionary<string, object> {
-            { "get-version", outputFilePath },
+            { "get-update", outputFilePath },
         });
 
         // read output JSON
@@ -32,13 +42,13 @@ public class WindowsUpdater : IUpdater
         catch
         {
             _logger.LogError("Failed to read version information from {OutputFilePath}", outputFilePath);
-            throw new SlowCowException("No version information found");
+            return null;
         }
     }
 
     public bool InstallLatest(bool force)
     {
-        var version = GetVersion();
+        var version = GetUpdateInfo();
         if (!force && version?.UpdateAvailable != true)
         {
             _logger.LogInformation("No update available");
@@ -62,6 +72,27 @@ public class WindowsUpdater : IUpdater
         Environment.Exit(0);
 
         return true; // will never reach this line :P
+    }
+
+    public ReleaseInfoModel GetCurrentInfo()
+    {
+        var releasePath = Path.Combine(_installationPath, Constants.AppFolderName, Constants.ReleaseInfoFileName);
+        if (!File.Exists(releasePath))
+        {
+            _logger.LogError("Cannot find release info file: {ReleasePath}", releasePath);
+            throw new SlowCowException("Cannot find release info file");
+        }
+
+        var json = File.ReadAllText(releasePath);
+        var result = JsonConvert.DeserializeObject<ReleaseInfoModel>(json);
+
+        if (result == null)
+        {
+            _logger.LogError("Failed to deserialize release info file: {ReleasePath}", releasePath);
+            throw new SlowCowException("Failed to deserialize release info file");
+        }
+
+        return result;
     }
 
     private void RunSetup(Dictionary<string, object> args, bool waitForExit = true)
@@ -102,7 +133,18 @@ public class WindowsUpdater : IUpdater
         }
     }
 
-    // by default, the setup file is located in the parent directory
-    private static string GetSetupPath() =>
-        Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))!, "setup.exe");
+    private string GetSetupPath() => Path.Combine(_installationPath, "setup.exe");
+
+    private static string FindInstallationPath()
+    {
+        var executablePath = Environment.ProcessPath;
+        if (string.IsNullOrWhiteSpace(executablePath)) throw new SlowCowException("Cannot find executable path");
+
+        var executableFolder = Path.GetDirectoryName(executablePath);
+        var installationPath = Path.GetDirectoryName(executableFolder); // as executable file must be in 'current' directory of the installation path
+
+        if (string.IsNullOrWhiteSpace(installationPath)) throw new SlowCowException("Cannot find executable path");
+
+        return installationPath;
+    }
 }

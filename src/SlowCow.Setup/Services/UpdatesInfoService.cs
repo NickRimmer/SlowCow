@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SlowCow.Setup.Base.Interfaces;
 using SlowCow.Setup.Repo.Base.Interfaces;
+using SlowCow.Setup.Repo.Base.Models;
 namespace SlowCow.Setup.Services;
 
 internal class UpdatesInfoService
@@ -19,7 +20,7 @@ internal class UpdatesInfoService
     public async Task<UpdatesModel> GetInfoAsync()
     {
         var installedInfo = await _installer.GetReleaseInfoAsync(_logger);
-        var lastRelease = await _repo.GetLastReleaseAsync(installedInfo?.Channel ?? RunnerSettingsModel.DefaultChannel, _logger);
+        var lastRelease = await _repo.GetLastReleaseAsync(installedInfo?.Channel ?? RepoReleaseModel.DefaultChannel, _logger);
         var availableVersion = lastRelease?.Version;
 
         _logger.Log(LogLevel.Debug, "Installed version: {InstalledVersion}, Available version: {AvailableVersion}", installedInfo?.Version, availableVersion);
@@ -28,7 +29,7 @@ internal class UpdatesInfoService
             installedInfo?.Version,
             availableVersion,
             !string.IsNullOrWhiteSpace(availableVersion) && availableVersion?.Equals(installedInfo?.Version, StringComparison.OrdinalIgnoreCase) != true,
-            installedInfo?.Channel ?? RunnerSettingsModel.DefaultChannel);
+            installedInfo?.Channel ?? RepoReleaseModel.DefaultChannel);
     }
 
     // ReSharper disable NotAccessedPositionalProperty.Global

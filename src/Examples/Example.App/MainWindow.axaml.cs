@@ -25,7 +25,7 @@ public partial class MainWindow : Window
     {
         Task.Run(() =>
         {
-            var version = _updater.GetVersion()?.InstalledVersion;
+            var version = _updater.GetUpdateInfo()?.InstalledVersion;
             Dispatcher.UIThread.Invoke(() => VersionLabel.Content = version);
         });
 
@@ -46,7 +46,7 @@ public partial class MainWindow : Window
         {
             try
             {
-                var updates = _updater.GetVersion();
+                var updates = _updater.GetUpdateInfo();
                 await Dispatcher.UIThread.InvokeAsync(() => MessageBoxManager
                     .GetMessageBoxStandard(
                         "Check for updates",

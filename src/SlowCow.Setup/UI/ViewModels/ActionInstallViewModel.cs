@@ -45,7 +45,7 @@ internal class ActionInstallViewModel : ViewModelBase
     public static ActionInstallViewModel? DesignInstance { get; } = new () {
         Release = new RepoReleaseModel {
             Version = "1.2.3",
-            Channel = RunnerSettingsModel.DefaultChannel,
+            Channel = RepoReleaseModel.DefaultChannel,
             ReleaseNotes = new RepoReleaseModel.ReleaseNotesModel {
                 Text = "Please provide release notes for this version. It will be displayed here.",
             },

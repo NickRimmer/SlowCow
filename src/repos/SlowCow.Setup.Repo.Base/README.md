@@ -18,4 +18,4 @@ Install-Package SlowCow.Setup.Repo.Base
 
 ## Basic Usage
 
-You can find examples in `SlowCow.Setup.Repo.GitHub` or `SlowCow.Setup.Repo.LocalFiles` [projects](https://github.com/NickRimmer/SlowCow/tree/main/src/Repos)
+You can find examples in `SlowCow.Setup.Repo.GitHub` or `SlowCow.Setup.Repo.LocalFiles` [projects](https://github.com/SlowCow-Project/SlowCow/tree/main/src/Repos)

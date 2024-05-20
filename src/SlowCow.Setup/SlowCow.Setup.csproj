@@ -11,7 +11,7 @@
   
   <PropertyGroup>
     <Title>SlowCow Setup</Title>
-    <Description>SlowCow Setup - is simple library to build you own Installer for your awesome app</Description>
+    <Description>SlowCow Setup - is simple library to build your own Installer for your awesome app</Description>
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(RootDir)README.md" Pack="true" PackagePath=".\" Visible="true"/>

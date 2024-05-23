@@ -110,20 +110,20 @@
             IsVisible="{Binding WizardStep, Converter={x:Static converters:EqualConverter.Same}, ConverterParameter=0}"
             Orientation="Vertical">
             <StackPanel Orientation="Vertical" Classes="ReleaseNotes Content">
-                <Button IsEnabled="{Binding Manifest.ReleaseNotes.Link, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                <Button IsEnabled="{Binding Release.ReleaseNotes.Link, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" Click="OpenReleaseNotes_OnClick">
                     <StackPanel Orientation="Horizontal" Spacing="7">
                         <TextBlock>Release notes</TextBlock>
                         <Image Source="../../Assets/icon-link-to-release-notes.png" IsVisible="{Binding $parent[Button].IsEnabled}" />
                     </StackPanel>
                 </Button>
-                <TextBlock Classes="ReleaseNotesMessage" Text="{Binding Manifest.ReleaseNotes.Text}" />
+                <TextBlock Classes="ReleaseNotesMessage" Text="{Binding Release.ReleaseNotes.Text}" />
             </StackPanel>
             <Border Classes="ActionPanel">
                 <StackPanel Orientation="Horizontal">
                     <Button Click="NextButton_OnClick">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="3">
                             <TextBlock>Install version</TextBlock>
-                            <TextBlock Text="{Binding Manifest.Version}" />
+                            <TextBlock Text="{Binding Release.Version}" />
                             <Image Margin="3,0,0,0" Source="../../Assets/icon-install.png" Opacity=".8" />
                         </StackPanel>
                     </Button>

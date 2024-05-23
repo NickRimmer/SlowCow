@@ -1,8 +1,5 @@
-﻿using System;
-using System.IO;
-using ReactiveUI;
-using SlowCow.Setup.Modules.Runner;
-using SlowCow.Setup.Modules.Setups.Base.Models;
+﻿using ReactiveUI;
+using SlowCow.Setup.Repo.Base.Models;
 namespace SlowCow.Setup.UI.ViewModels;
 
 internal class ActionInstallViewModel : ViewModelBase
@@ -13,7 +10,7 @@ internal class ActionInstallViewModel : ViewModelBase
     private string _installationPath = string.Empty;
     private string _applicationName = string.Empty;
 
-    public required ManifestModel Manifest { get; init; }
+    public required RepoReleaseModel Release { get; init; }
 
     public int WizardStep
     {
@@ -46,15 +43,15 @@ internal class ActionInstallViewModel : ViewModelBase
     }
 
     public static ActionInstallViewModel? DesignInstance { get; } = new () {
-        Manifest = new ManifestModel {
-            Version = "1.2.3-design",
-            Channel = RunnerModel.DefaultChannel,
-            ReleaseNotes = new ManifestModel.ReleaseNotesModel {
+        Release = new RepoReleaseModel {
+            Version = "1.2.3",
+            Channel = RepoReleaseModel.DefaultChannel,
+            ReleaseNotes = new RepoReleaseModel.ReleaseNotesModel {
                 Text = "Please provide release notes for this version. It will be displayed here.",
             },
         },
         AppName = "Design app",
-        WizardStep = 3,
+        WizardStep = 0,
         InstallationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Design app"),
     };
 }

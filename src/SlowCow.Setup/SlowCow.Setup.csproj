@@ -1,39 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>UI/app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <NoWarn>$(NoWarn);IL2057</NoWarn>
-
-    <Title>SlowCow Setup</Title>
-    <Authors>Nick Rimmer</Authors>
-    <Description>SlowCow Setup - is simple library to build you own Installer for your awesome app</Description>
-    <PackageTags>Installer, Setup, Updater, SlowCow</PackageTags>
-    <ApplicationIcon>Assets\app-icon.ico</ApplicationIcon>
-    <Copyright>Nick Rimmer</Copyright>
-    <PackageProjectUrl>https://github.com/NickRimmer/SlowCow</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/NickRimmer/SlowCow</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
-    <PackageIcon>app-icon.png</PackageIcon>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Configurations>Debug;Release;Local NuGet</Configurations>
     <Platforms>AnyCPU</Platforms>
+    <Configurations>Debug;Release</Configurations>
+    <ApplicationIcon>Assets\app-icon.ico</ApplicationIcon>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Local NuGet'">
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageOutputPath>../packages</PackageOutputPath>
-    <PackageVersion>99.99.99</PackageVersion>
+  
+  <PropertyGroup>
+    <Title>SlowCow Setup</Title>
+    <Description>SlowCow Setup - is simple library to build your own Installer for your awesome app</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(RootDir)README.md" Pack="true" PackagePath=".\" Visible="true"/>
+  </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <OutputType>Library</OutputType>
     <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -42,13 +28,6 @@
   
   <ItemGroup>
     <AvaloniaResource Include="Assets\**"/>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Include="..\..\docs\app-icon.png" Pack="true" PackagePath="app-icon.png"/>
-    <None Include="..\..\LICENSE" Pack="true" PackagePath=".\"/>
-    <None Include="..\..\README.md" Pack="true" PackagePath=".\"/>
-    <None Include="bin\$(Configuration)\net8.0\SlowCow.Shared.dll" Pack="true" PackagePath="lib\net8.0"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -60,11 +39,12 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.6"/>
     <PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
-    <PackageReference Include="WindowsShortcutFactory" Version="1.1.0"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SlowCow.Shared\SlowCow.Shared.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Repos\SlowCow.Setup.Repo.Base\SlowCow.Setup.Repo.Base.csproj" />
+    <ProjectReference Include="..\Setup\SlowCow.Setup.Base\SlowCow.Setup.Base.csproj" />
   </ItemGroup>
 </Project>

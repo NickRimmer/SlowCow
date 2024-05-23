@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    strategy:
-      matrix:
-        project: ['src/SlowCow.Setup/SlowCow.Setup.csproj', 'src/Example.Setup/Example.Setup.csproj', 'src/Example.App/Example.App.csproj', 'src/SlowCow.Updater/SlowCow.Updater.csproj']
 
     steps:
       - name: Checkout code
@@ -22,4 +19,4 @@ jobs:
           dotnet-version: "8.x"
 
       - name: Build Debug
-        run: dotnet build ${{ matrix.project }} -c Release
+        run: dotnet build 'src/SlowCow.sln' -c Release

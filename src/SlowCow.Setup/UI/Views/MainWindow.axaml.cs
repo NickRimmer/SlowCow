@@ -1,16 +1,12 @@
-using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Microsoft.Extensions.DependencyInjection;
-using SlowCow.Setup.Modules.Installers;
-using SlowCow.Setup.Modules.Runner;
-using SlowCow.Setup.Modules.Setups.Base;
-using SlowCow.Setup.Modules.Setups.Base.Models;
-using SlowCow.Setup.Modules.Updates;
+using Microsoft.Extensions.Logging;
+using SlowCow.Setup.Base.Interfaces;
+using SlowCow.Setup.Repo.Base.Interfaces;
+using SlowCow.Setup.Repo.Base.Models;
+using SlowCow.Setup.Services;
 using SlowCow.Setup.UI.ViewModels;
 namespace SlowCow.Setup.UI.Views;
 
@@ -35,9 +31,10 @@ public partial class MainWindow : Window
 
     private async Task StartAsync()
     {
+        var logger = Runner.Services.GetRequiredService<ILogger>();
         try
         {
-            var runnerSettings = Runner.Services.GetRequiredService<RunnerModel>();
+            var runnerSettings = Runner.Services.GetRequiredService<RunnerSettingsModel>();
             if (!string.IsNullOrWhiteSpace(runnerSettings.ParentProcessId))
             {
                 // If the setup is started by another process, check if process with id started and wait for it to exit
@@ -52,11 +49,11 @@ public partial class MainWindow : Window
             }
 
             var versionsManager = Runner.Services.GetRequiredService<UpdatesInfoService>();
-            var setupProvider = Runner.Services.GetRequiredService<ISetup>();
-            var installer = Runner.Services.GetRequiredService<InstallerProvider>().GetInstaller();
+            var repo = Runner.Services.GetRequiredService<IRepo>();
+            var installer = Runner.Services.GetRequiredService<IInstaller>();
 
-            var manifest = await setupProvider.LoadManifestAsync(runnerSettings.Channel) ?? throw new FileNotFoundException("Cannot read version details.");
-            var installationPath = installer.GetInstallationPath();
+            var lastRelease = await repo.GetLastReleaseAsync(runnerSettings.Channel, logger) ?? throw new FileNotFoundException("Cannot read version details.");
+            var installationPath = installer.InstallationPath;
 
             var versionInfo = await versionsManager.GetInfoAsync();
             await Dispatcher.UIThread.InvokeAsync(() =>
@@ -68,12 +65,13 @@ public partial class MainWindow : Window
                 }
                 else
                 {
-                    ShowInstallationPanel(manifest, installationPath);
+                    ShowInstallationPanel(lastRelease, installationPath);
                 }
             });
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, "Error while updating the application");
             await Dispatcher.UIThread.InvokeAsync(() => ShowErrorPanel(
                 "Cannot load manifest file",
                 $"{ex.InnerException?.Message ?? ex.Message} ({ex.InnerException?.GetType().Name ?? ex.GetType().Name})",
@@ -84,17 +82,17 @@ public partial class MainWindow : Window
     private async Task StartInDesignAsync()
     {
         await Task.Delay(1000);
-        await Dispatcher.UIThread.InvokeAsync(() => ShowInstallationPanel(new ManifestModel {
+        await Dispatcher.UIThread.InvokeAsync(() => ShowInstallationPanel(new RepoReleaseModel {
             Version = "1.2.3-design",
-            Channel = RunnerModel.DefaultChannel,
-            ReleaseNotes = new ManifestModel.ReleaseNotesModel {
+            Channel = RepoReleaseModel.DefaultChannel,
+            ReleaseNotes = new RepoReleaseModel.ReleaseNotesModel {
                 Text = "This is a design-time release notes message.",
             },
         }, string.Empty));
     }
 
-    private void ShowInstallationPanel(ManifestModel manifest, string installationPath) => ViewModel.InstallationData = new ActionInstallViewModel {
-        Manifest = manifest,
+    private void ShowInstallationPanel(RepoReleaseModel release, string installationPath) => ViewModel.InstallationData = new ActionInstallViewModel {
+        Release = release,
         InstallationPath = installationPath,
         AppName = ViewModel.AppName,
     };

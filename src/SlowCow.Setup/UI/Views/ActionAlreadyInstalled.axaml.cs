@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using SlowCow.Setup.UI.ViewModels;
 

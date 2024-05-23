@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version of the package'
+        description: 'Version of the package (1.2.3 format)'
         required: false
 
 jobs:
@@ -22,11 +22,28 @@ jobs:
         with:
           dotnet-version: "8.x"
 
-      - name: Run PowerShell script
+      - name: NuGet push - Setup library
         env:
           nugetApiKey: ${{ secrets.NUGETAPIKEY }}
         run: |
           $version = "${{ github.event.inputs.version }}"
-          pwsh -File ./src/nuget-pack.ps1 -packageId "SlowCow.Setup" -version "$version"
-          pwsh -File ./src/nuget-pack.ps1 -packageId "SlowCow.Updater" -version "$version"
+          pwsh -File ./src/nuget-pack.ps1 -packageId "SlowCow.Setup" -projectPath "src/SlowCow.Setup/SlowCow.Setup.csproj" -version "$version"
+
+      - name: NuGet push - Installers and updaters
+        env:
+          nugetApiKey: ${{ secrets.NUGETAPIKEY }}
+        run: |
+          $version = "${{ github.event.inputs.version }}"
+          pwsh -File ./src/nuget-pack.ps1 -packageId "SlowCow.Setup.Base" -projectPath "src/Setup/SlowCow.Setup.Base/SlowCow.Setup.Base.csproj" -version "$version"
+          pwsh -File ./src/nuget-pack.ps1 -packageId "SlowCow.Setup.Windows.Installer" -projectPath "src/Setup/SlowCow.Setup.Windows.Installer/SlowCow.Setup.Windows.Installer.csproj" -version "$version"
+          pwsh -File ./src/nuget-pack.ps1 -packageId "SlowCow.Setup.Windows.Updater" -projectPath "src/Setup/SlowCow.Setup.Windows.Updater/SlowCow.Setup.Windows.Updater.csproj" -version "$version"
+
+      - name: NuGet push - Repos
+        env:
+          nugetApiKey: ${{ secrets.NUGETAPIKEY }}
+        run: |
+          $version = "${{ github.event.inputs.version }}"
+          pwsh -File ./src/nuget-pack.ps1 -packageId "SlowCow.Setup.Repo.Base" -projectPath "src/Repos/SlowCow.Setup.Repo.Base/SlowCow.Setup.Repo.Base.csproj" -version "$version"
+          pwsh -File ./src/nuget-pack.ps1 -packageId "SlowCow.Setup.Repo.GitHub" -projectPath "src/Repos/SlowCow.Setup.Repo.GitHub/SlowCow.Setup.Repo.GitHub.csproj" -version "$version"
+          pwsh -File ./src/nuget-pack.ps1 -packageId "SlowCow.Setup.Repo.LocalFiles" -projectPath "src/Repos/SlowCow.Setup.Repo.LocalFiles/SlowCow.Setup.Repo.LocalFiles.csproj" -version "$version"
 

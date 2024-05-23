@@ -9,6 +9,6 @@ internal class ActionErrorViewModel : ViewModelBase
     public static ActionErrorViewModel? DesignInstance { get; } = new () {
         Message = "This is a design mode error example",
         Details = "Some details will be here (with error code)",
-        StackTrace = null, 
+        StackTrace = null,
     };
 }

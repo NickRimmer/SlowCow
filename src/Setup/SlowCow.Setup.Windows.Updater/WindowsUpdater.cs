@@ -138,7 +138,7 @@ public class WindowsUpdater : IUpdater
         var setupPath = Path.Combine(_executionFolder, SetupFileName); // search in execution folder
         if (!File.Exists(setupPath)) setupPath = Path.Combine(Path.GetDirectoryName(_executionFolder)!, SetupFileName); // search in parent folder
 
-        if (!File.Exists(setupPath)) throw new SlowCowException("Cannot find setup file");
+        if (!File.Exists(setupPath)) throw new SlowCowException($"Cannot find setup file: {setupPath}");
         return setupPath;
     }
 

@@ -1,0 +1,15 @@
+{
+	"nodes":[
+		{"id":"b371ba2f7b27f74e","x":-236,"y":-189,"width":285,"height":109,"type":"text","text":"`Update` folder with downloaded and ready to be installed updates"},
+		{"id":"ffff8808cb7fe3c2","x":-760,"y":-174,"width":380,"height":80,"color":"4","type":"text","text":"Installation path\n(e.g. on Windows `%appdata%/app-name`)"},
+		{"id":"c9b4927c4d9c176a","x":140,"y":-164,"width":250,"height":60,"type":"text","text":"Must be removed after update"},
+		{"id":"f294c9046a4ab7f5","x":-236,"y":-40,"width":285,"height":79,"type":"text","text":"Setup file\n(e.g. on Windows `Setup.exe`)"},
+		{"id":"e05a61d6b8690f95","x":-236,"y":-300,"width":285,"height":67,"type":"text","text":"`Current` folder with app execution files"}
+	],
+	"edges":[
+		{"id":"5341f5efe73c7ed1","fromNode":"ffff8808cb7fe3c2","fromSide":"right","toNode":"e05a61d6b8690f95","toSide":"left"},
+		{"id":"57a13d059c0727be","fromNode":"ffff8808cb7fe3c2","fromSide":"right","toNode":"b371ba2f7b27f74e","toSide":"left"},
+		{"id":"5dcdd387db442642","fromNode":"b371ba2f7b27f74e","fromSide":"right","toNode":"c9b4927c4d9c176a","toSide":"left"},
+		{"id":"405f3c5d1b4b8b6e","fromNode":"ffff8808cb7fe3c2","fromSide":"right","toNode":"f294c9046a4ab7f5","toSide":"left"}
+	]
+}

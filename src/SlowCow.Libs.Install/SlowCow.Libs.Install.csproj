@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\SlowCow.Installers.Base\SlowCow.Installers.Base.csproj" />
+    <ProjectReference Include="..\SlowCow.Repo.Base\SlowCow.Repo.Base.csproj" />
+  </ItemGroup>
+</Project>

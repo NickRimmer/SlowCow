@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>slowcow-publish</AssemblyName>
+    <RootNamespace>SlowCow.Examples.Publisher</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SlowCow.Apps.Shared\SlowCow.Apps.Shared.csproj" />
+    <ProjectReference Include="..\SlowCow.Libs.Publish\SlowCow.Libs.Publish.csproj" />
+    <ProjectReference Include="..\SlowCow.Repo.GitHub\SlowCow.Repo.GitHub.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="settings.json" Condition="'$(Configuration)'=='Debug'">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

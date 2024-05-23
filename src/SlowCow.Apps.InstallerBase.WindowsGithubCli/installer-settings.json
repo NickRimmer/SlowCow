@@ -1,0 +1,15 @@
+﻿{
+  "repoSettings": {
+    "owner": "",
+    "repositoryName": "",
+    "accessToken": ""
+  },
+  "installationSettings": {
+    "applicationName": "RestApia Desktop",
+    "publisherName": "RestApia",
+    "applicationId": "6806b246-e65f-4fd0-86b2-46e65f2fd058",
+    "applicationFolderName": "RestApia Desktop",
+    "channel": "preview",
+    "executableRelativePath": "RestApia.Clients.Desktop.exe"
+  }
+}

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>slowcow-base-installer-win-gh-cli</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SlowCow.Apps.Shared\SlowCow.Apps.Shared.csproj" />
+    <ProjectReference Include="..\SlowCow.Installers.Windows\SlowCow.Installers.Windows.csproj" />
+    <ProjectReference Include="..\SlowCow.Libs.Install\SlowCow.Libs.Install.csproj" />
+    <ProjectReference Include="..\SlowCow.Repo.GitHub\SlowCow.Repo.GitHub.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="installer-settings.json" Condition="'$(Configuration)'=='Debug'">
+      <CopyToOutputDirectory Condition="">PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

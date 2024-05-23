@@ -4,6 +4,7 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
     <DocsDir Condition="'$(DocsDir)' == ''">$(MSBuildThisFileDirectory)..\docs\</DocsDir>
     <RootDir Condition="'$(RootDir)' == ''">$(MSBuildThisFileDirectory)..\</RootDir>
   </PropertyGroup>

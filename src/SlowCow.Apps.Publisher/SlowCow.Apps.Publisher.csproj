@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>SlowCow</AssemblyName>
+    <RootNamespace>SlowCow.Apps.Publisher</RootNamespace>
+    
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>slowcow</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <Description>SlowCow Publisher is a .NET global tool designed to create installers based on configuration provided in JSON files and publish them to repository</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SlowCow.Apps.Shared\SlowCow.Apps.Shared.csproj" />
+    <ProjectReference Include="..\SlowCow.Libs.Publish\SlowCow.Libs.Publish.csproj" />
+    <ProjectReference Include="..\SlowCow.Repo.GitHub\SlowCow.Repo.GitHub.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Examples\*" Condition="'$(Configuration)'=='Debug'">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath=".\" Visible="true"/>
+  </ItemGroup>
+
+</Project>

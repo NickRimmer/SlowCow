@@ -1,12 +1,7 @@
 # SlowCow Installer
 
-[![NuGet Version](https://img.shields.io/nuget/v/SlowCow.Setup?style=for-the-badge&label=NUGET%20-%20Setup)](https://www.nuget.org/packages/SlowCow.Setup/)
-![NuGet Downloads](https://img.shields.io/nuget/dt/SlowCow.Setup?style=for-the-badge)
-
-Simple installer on C#
-
-![Application screenshot](https://raw.githubusercontent.com/SlowCow-Project/SlowCow/main/docs/app-screenshot.jpg)
-
+[![Version](https://img.shields.io/nuget/v/SlowCow?style=for-the-badge&label=dotnet%20tool%20)](https://www.nuget.org/packages/SlowCow.Setup/)
+![Installs](https://img.shields.io/nuget/dt/SlowCow?style=for-the-badge&label=Installations)
 
 ## Under Development
 

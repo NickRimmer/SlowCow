@@ -1,12 +1,12 @@
 ﻿{
   "releaseNotes": null,
   "version": null,
-  "path": "X:/projects/RestApia/RestApia2/_publish/desktop-portable",
+  "path": "...",
   "channel": "preview",
-  "setupExecutableFullPath": "X:/projects/SlowCow/_temp/setup.exe",
+  "setupExecutableFullPath": "...",
   "repoSettings": {
     "owner": "RestApia",
     "repositoryName": "RestApia.Desktop2",
-    "accessToken": ""
+    "accessToken": "github_pat_..."
   }
 }

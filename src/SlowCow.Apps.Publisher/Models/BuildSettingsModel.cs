@@ -1,12 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-namespace SlowCow.Apps.InstallerBuilder.Models;
+namespace SlowCow.Apps.Publisher.Models;
 
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")] // used by serialization
-public record AppSettingsModel
+public record BuildSettingsModel
 {
     public required string BaseInstallerPath { get; init; }
-    public bool CreateCopy { get; init; } = true;
-    public string OutputName { get; init; } = string.Empty;
+    public string OutputName { get; init; } = "SlowCowInstaller";
     public string OutputFolder { get; init; } = string.Empty;
 
     public required object InstallerSettings { get; init; }

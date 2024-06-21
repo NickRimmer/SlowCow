@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-namespace SlowCow.Examples.Publisher;
+namespace SlowCow.Apps.Publisher.Models;
 
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")] // used in serialization
-public record PublishSettings
+public record PublishSettingsModel
 {
     public string? ReleaseNotes { get; init; }
     public string? Version { get; init; }
@@ -11,7 +11,7 @@ public record PublishSettings
     public required string Channel { get; init; }
 }
 
-public record PublishSettings<TRepoSettings> : PublishSettings
+public record PublishSettingsModel<TRepoSettings> : PublishSettingsModel
 {
     public required TRepoSettings RepoSettings { get; init; }
 }

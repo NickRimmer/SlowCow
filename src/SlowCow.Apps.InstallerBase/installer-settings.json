@@ -1,8 +1,8 @@
 ﻿{
   "repoSettings": {
-    "owner": "",
-    "repositoryName": "",
-    "accessToken": ""
+    "owner": "RestApia",
+    "repositoryName": "RestApia.Desktop2",
+    "accessToken": "github_pat_..."
   },
   "installationSettings": {
     "applicationName": "RestApia Desktop",

@@ -1,14 +1,11 @@
 ﻿{
-  "createCopy": true,
   "outputName": "RestApia-Setup",
   "outputFolder": "",
-  "baseInstallerPath": "X:/projects/SlowCow/_temp/v2/installer/slowcow-install.exe",
-  //"baseInstallerPath": "X:/projects/SlowCow/src/SlowCow.Examples.Installer.Windows.Cli/bin/Debug/net8.0/slowcow-install.exe",
   "installerSettings": {
     "repoSettings": {
       "owner": "RestApia",
       "repositoryName": "RestApia.Desktop2",
-      "accessToken": ""
+      "accessToken": "github_pat_..."
     },
     "installationSettings": {
       "applicationName": "RestApia Desktop",
